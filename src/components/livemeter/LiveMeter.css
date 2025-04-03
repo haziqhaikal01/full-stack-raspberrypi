@@ -1,0 +1,17 @@
+/* Live Meter Container */
+.live-meter-container {
+  text-align: center;
+  padding: 20px;
+  background: #222;
+  color: #fff;
+  border-radius: 10px;
+  width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+/* Live Meter Title */
+.meter-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}

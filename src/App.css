@@ -1,0 +1,282 @@
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, #000000, #2f3f7f);
+  background-attachment: fixed;
+}
+
+h1,h2,h3,p{
+  color:white;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+
+.react-app{
+  height:100px;
+  gap: 100px;
+}
+
+/* Ensures main content is positioned correctly */
+.main-content {
+  /* padding-top: 80px; */
+  text-align: center;
+  color: white;
+  /* text-shadow: 2px 2px; */
+  display: flex;
+  flex-direction: row; /* ✅ Align items side by side */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  justify-content: center; /*✅ Ensures spacing between columns */
+  align-items: flex-start;
+  width: 80%;
+  margin: 100px auto; /* Centers in the middle of the screen */
+  /* margin: 100px 50px 50px 50px; */
+  padding: 20px 0 20px 0;
+  gap: 100px;
+  box-sizing: border-box;
+  outline-style: solid;
+  outline-color: white;
+}
+
+/* ✅ Left Column: Map + LiveMeter */
+.left-column {
+  width: 35%; /* Takes 35% of the width */
+  display: flex;
+  flex-direction: column; /* Stack elements inside */
+  align-items: center;
+  justify-content: flex-start;
+  outline-style: solid;
+  outline-color: white;
+}
+
+/* ✅ Right Column: Graph + Events + Download */
+.right-column {
+  width: 100%; /* Takes 60% of the width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  outline-style: solid;
+  outline-color: white;
+  
+}
+
+
+
+.graph {
+  border-width: medium;
+  background-color: rgb(255, 255, 255)
+}
+
+.map-container {
+  height: 300px; /* Adjust height */
+  width: 100%; /* Adjust width */
+  max-width: 500px; /* Prevent it from stretching too much */
+  margin: 20px 0 0 0;
+  border-radius: 10px; /* Optional styling */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+
+
+.live-meter-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.meter-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.loading-message {
+  color: #ccc;
+  font-style: italic;
+}
+
+/* Disable all needle and arc animations */
+#gauge-chart .needle,
+#gauge-chart .gauge .arc {
+  transition: none !important;
+}
+
+
+/* Main layout container */
+.content-layout {
+  display: flex;
+  justify-content: space-between; /* Arrange Map, Graph, and LiveMeter */
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 10px; /* Space between sections */
+  padding: 50px;
+  width: 100%;
+}
+
+/* Map section (Left) */
+.map-section {
+  color:white;
+  height: 500px;
+  width: 30%; /* Takes 30% of the page width */
+  min-width: 300px; /* Prevents shrinking too much */
+  margin: 100px auto;
+}
+
+/* Graph Section Background */
+.graph-section {
+  color:white;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Live Meter Styling */
+.meter-section {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Graph Container */
+.graph-container {
+  background-color: rgba(255, 255, 255, 0.1); /* Slight transparency */
+  /* padding: 20px; */
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Graph Title */
+.graph-title {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Graph Wrapper */
+.graph-wrapper {
+  height: 500px; /* Control graph height */
+  width: 100%;
+}
+
+/* General container styles */
+.downloadbuton-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Input field styles */
+.input-container {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* Button styles */
+.download-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.download-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.download-button:hover {
+  background-color: #0056b3;
+}
+
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ff4d4d;
+  text-align: center;
+}
+
+/* Events.css */
+.events-container {
+  text-align: center;
+  margin-top: 50px;
+  width: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+}
+
+.location-select {
+  padding: 8px;
+  margin: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.frequency-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.frequency-item {
+  font-size: 18px;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  color: white;
+  font-weight: bold;
+}
+
+.frequency-item:last-child {
+  border-bottom: none;
+}
+
+
+/* ✅ Alert Box */
+.alert-box {
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* ✅ Total Readings Display */
+.total-readings {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00FFCC;
+  margin-top: 10px;
+}
