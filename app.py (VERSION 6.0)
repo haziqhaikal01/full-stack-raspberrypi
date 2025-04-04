@@ -1,0 +1,94 @@
+# TO MAKE IT PUBLIC URL JSON FILE (VERSION 6.0)
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from urllib.parse import unquote
+import os
+import ssl
+import certifi
+import pandas as pd
+from influxdb_client_3 import InfluxDBClient3
+
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+# ⛔️ Secrets should be set as environment variables in Render
+INFLUXDB_HOST = "https://eu-central-1-1.aws.cloud2.influxdata.com"
+INFLUXDB_TOKEN = os.getenv("INFLUXDB_TOKEN")
+INFLUXDB_DATABASE = "FrequencyMeas"
+
+if not INFLUXDB_TOKEN:
+    raise ValueError("❌ INFLUXDB_TOKEN is not set!")
+
+# SSL config
+os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = certifi.where()
+ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+# Mapping location strings to database field values
+LOCATION_MAPPING = {
+    "manchester": "M13 9RW",
+    "scotland": "S23 9RW",
+}
+
+@app.route("/")
+def index():
+    return jsonify({"message": "✅ API is up. Use /frequency/<location>?minutes=N"}), 200
+
+@app.route("/frequency/<location>", methods=["GET"])
+def get_frequency(location):
+    print("📥 Request received to fetch Frequency field")
+
+    minutes = request.args.get("minutes", default=1, type=int)
+    field = "Frequency"  # Keep capital F for the InfluxDB field
+
+    location_key = location.lower().strip()
+    if location_key not in LOCATION_MAPPING:
+        return jsonify({"error": "Invalid location"}), 400
+
+    influx_location = LOCATION_MAPPING[location_key]
+
+    try:
+        client = InfluxDBClient3(
+            host=INFLUXDB_HOST,
+            token=INFLUXDB_TOKEN,
+            database=INFLUXDB_DATABASE,
+            ssl_context=ssl_context
+        )
+
+        query = f"""
+        SELECT time, "Frequency"
+        FROM "FrequencyTest"
+        WHERE "location" = '{influx_location}'
+        AND "Frequency" IS NOT NULL
+        AND time >= now() - interval '{minutes} minutes'
+        ORDER BY time ASC
+        """
+
+        print("🧠 Executing query:\n", query)
+
+        table = client.query(query)
+        client.close()
+
+        if table.num_rows == 0:
+            print("⚠️ No data found")
+            return jsonify([]), 404
+
+        time_col = table.column("time").to_pylist()
+        freq_col = table.column("Frequency").to_pylist()
+
+        rows = []
+        for t, v in zip(time_col, freq_col):
+            if v is not None:
+                rows.append({
+                    "time": pd.to_datetime(t).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
+                    "frequency": round(float(v), 3)
+                })
+
+        print(f"✅ Returned {len(rows)} rows")
+        return jsonify(rows)
+
+    except Exception as e:
+        print(f"❌ Error querying InfluxDB: {e}")
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
