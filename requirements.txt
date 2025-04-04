@@ -1,0 +1,6 @@
+flask
+flask-cors
+certifi
+pandas
+influxdb-client-3
+pyarrow
